@@ -180,8 +180,14 @@
             n = '-0';
 
         // Ensure n is string and check validity.
-        } else if (!isValid.test(n += '')) {
+        } else {
+          // Avoid double rounding precision to be proagated inside the big decimal instance
+          if (typeof n === "number") {
+            n = n.toFixed(13);
+          }
+          if (!isValid.test(n)) {
             throwErr(NaN);
+          }
         }
 
         // Determine sign.
